@@ -70,10 +70,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo-poker01-256.png",
-        width: 256,
-        height: 256,
-        alt: "POKER01",
+        url: "/og-share.png",
+        width: 1200,
+        height: 630,
+        alt: "POKER01 — 一站式 Poker 資訊站",
       },
     ],
   },
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: titleDefault,
     description,
-    images: ["/logo-poker01-256.png"],
+    images: ["/og-share.png"],
   },
   icons: {
     icon: [
