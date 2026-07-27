@@ -1,0 +1,16 @@
+node_modules
+.next
+out
+.DS_Store
+*.log
+.env*.local
+public/news-images/*
+!public/news-images/.gitkeep
+data/news-archive.json
+data/blob-fallback/
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/swe-worker-*.js
+public/swe-worker-*.js.map
