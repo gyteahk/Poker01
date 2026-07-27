@@ -16,6 +16,8 @@ import {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+/** Allow DeepSeek + Gemini cover generation on cold start / refresh. */
+export const maxDuration = 60;
 
 /**
  * GET /api/news

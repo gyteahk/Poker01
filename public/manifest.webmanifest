@@ -6,7 +6,7 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0b1220",
+  "background_color": "#ffffff",
   "theme_color": "#00c2d7",
   "lang": "zh-Hant",
   "categories": ["games", "entertainment", "education"],

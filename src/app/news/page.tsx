@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useI18n } from "@/components/I18nProvider";
 import { newsExcerpt, type NewsArticle } from "@/lib/news-shared";
 
@@ -14,6 +14,7 @@ export default function NewsPage() {
   const [loading, setLoading] = useState(true);
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState(false);
+  const bootstrapped = useRef(false);
 
   const load = useCallback(async (opts?: { check?: boolean; quiet?: boolean }) => {
     const checkUpdates = opts?.check ?? false;
@@ -22,12 +23,17 @@ export default function NewsPage() {
     else if (!checkUpdates) setLoading(true);
     setError(false);
     try {
-      const res = await fetch(`/api/news${checkUpdates ? "?check=1" : ""}`);
+      const res = await fetch(`/api/news${checkUpdates ? "?check=1" : ""}`, {
+        cache: "no-store",
+      });
       if (!res.ok) throw new Error("bad status");
       const data = await res.json();
-      setArticles(data.articles ?? []);
+      const next = (data.articles ?? []) as NewsArticle[];
+      setArticles(next);
+      return next;
     } catch {
       setError(true);
+      return [] as NewsArticle[];
     } finally {
       setLoading(false);
       setChecking(false);
@@ -35,11 +41,23 @@ export default function NewsPage() {
   }, []);
 
   useEffect(() => {
-    void load();
+    let cancelled = false;
+    (async () => {
+      const first = await load();
+      if (cancelled || bootstrapped.current) return;
+      bootstrapped.current = true;
+      // Cold start / empty archive: force one RSS+AI check automatically
+      if (first.length === 0) {
+        await load({ check: true });
+      }
+    })();
     const timer = window.setInterval(() => {
       void load({ check: true, quiet: true });
     }, CLIENT_CHECK_INTERVAL_MS);
-    return () => window.clearInterval(timer);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
   }, [load]);
 
   return (
@@ -76,7 +94,11 @@ export default function NewsPage() {
           </div>
         )}
 
-        {!loading && !error && (
+        {!loading && !error && articles.length === 0 && (
+          <p className="muted">{t.news.empty}</p>
+        )}
+
+        {!loading && !error && articles.length > 0 && (
           <div className="news-list">
             {articles.map((item) => (
               <Link

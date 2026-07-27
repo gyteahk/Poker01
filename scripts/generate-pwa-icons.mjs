@@ -1,5 +1,5 @@
 /**
- * Generate PWA icons from the existing logo.
+ * Generate PWA icons from the existing logo on a white background.
  * Run: node scripts/generate-pwa-icons.mjs
  */
 import { mkdir, access } from "fs/promises";
@@ -9,6 +9,7 @@ import sharp from "sharp";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(root, "public", "icons");
+const WHITE = { r: 255, g: 255, b: 255, alpha: 1 };
 
 async function exists(p) {
   try {
@@ -17,6 +18,47 @@ async function exists(p) {
   } catch {
     return false;
   }
+}
+
+/**
+ * Flatten transparency (and any near-black matte) onto solid white.
+ * Source logos often use alpha=0 which otherwise renders as black in PWA splash/icons.
+ */
+async function whiteCanvasLogo(srcPath) {
+  const flattened = await sharp(srcPath)
+    .ensureAlpha()
+    .flatten({ background: WHITE })
+    .png()
+    .toBuffer();
+
+  // Also scrub any residual near-black matte that isn't transparent
+  const { data, info } = await sharp(flattened)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const threshold = 28;
+  for (let i = 0; i < data.length; i += info.channels) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    if (r <= threshold && g <= threshold && b <= threshold) {
+      data[i] = 255;
+      data[i + 1] = 255;
+      data[i + 2] = 255;
+      data[i + 3] = 255;
+    }
+  }
+
+  return sharp(data, {
+    raw: {
+      width: info.width,
+      height: info.height,
+      channels: info.channels,
+    },
+  })
+    .png()
+    .toBuffer();
 }
 
 async function main() {
@@ -35,23 +77,26 @@ async function main() {
   }
   if (!src) throw new Error("No logo source found in public/");
 
-  const base = sharp(src).ensureAlpha();
+  const whiteBuf = await whiteCanvasLogo(src);
 
-  await base
-    .clone()
-    .resize(192, 192, { fit: "cover", position: "centre" })
+  await sharp(whiteBuf)
+    .resize(192, 192, { fit: "cover", position: "centre", background: WHITE })
+    .flatten({ background: WHITE })
     .png()
     .toFile(path.join(outDir, "icon-192.png"));
 
-  await base
-    .clone()
-    .resize(512, 512, { fit: "cover", position: "centre" })
+  await sharp(whiteBuf)
+    .resize(512, 512, { fit: "cover", position: "centre", background: WHITE })
+    .flatten({ background: WHITE })
     .png()
     .toFile(path.join(outDir, "icon-512.png"));
 
-  // Maskable: add safe padding on dark background
-  const inner = await sharp(src)
-    .resize(410, 410, { fit: "contain", background: { r: 11, g: 18, b: 32, alpha: 1 } })
+  const inner = await sharp(whiteBuf)
+    .resize(410, 410, {
+      fit: "contain",
+      background: WHITE,
+    })
+    .flatten({ background: WHITE })
     .png()
     .toBuffer();
 
@@ -60,14 +105,15 @@ async function main() {
       width: 512,
       height: 512,
       channels: 4,
-      background: { r: 11, g: 18, b: 32, alpha: 1 },
+      background: WHITE,
     },
   })
     .composite([{ input: inner, gravity: "centre" }])
+    .flatten({ background: WHITE })
     .png()
     .toFile(path.join(outDir, "icon-512-maskable.png"));
 
-  console.log("PWA icons written to public/icons/");
+  console.log("PWA icons (white background) written to public/icons/");
 }
 
 main().catch((e) => {

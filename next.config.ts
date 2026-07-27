@@ -9,6 +9,15 @@ const withPWA = withPWAInit({
   fallbacks: {
     document: "/offline",
   },
+  workboxOptions: {
+    runtimeCaching: [
+      {
+        urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith("/api/"),
+        handler: "NetworkOnly",
+        method: "GET",
+      },
+    ],
+  },
 });
 
 const nextConfig: NextConfig = {
