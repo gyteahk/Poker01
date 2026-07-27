@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { InternalLinks } from "@/components/InternalLinks";
 import { useI18n } from "@/components/I18nProvider";
 import { newsExcerpt, type NewsArticle } from "@/lib/news-shared";
 
@@ -46,7 +47,6 @@ export default function NewsPage() {
       const first = await load();
       if (cancelled || bootstrapped.current) return;
       bootstrapped.current = true;
-      // Cold start / empty archive: force one RSS+AI check automatically
       if (first.length === 0) {
         await load({ check: true });
       }
@@ -133,6 +133,8 @@ export default function NewsPage() {
             ))}
           </div>
         )}
+
+        <InternalLinks current="news" />
       </div>
     </div>
   );

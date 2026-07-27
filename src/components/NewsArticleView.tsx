@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { NewsArticle } from "@/lib/news-shared";
+import { InternalLinks } from "@/components/InternalLinks";
 import { useI18n } from "@/components/I18nProvider";
 
 export function NewsArticleView({ article }: { article: NewsArticle }) {
@@ -48,6 +49,8 @@ export function NewsArticleView({ article }: { article: NewsArticle }) {
             </p>
           )}
         </article>
+
+        <InternalLinks current="news" />
       </div>
     </div>
   );

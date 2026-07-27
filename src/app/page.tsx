@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { InternalLinks } from "@/components/InternalLinks";
 import { CONTACT } from "@/lib/i18n";
 import { useI18n } from "@/components/I18nProvider";
+import { listWikiArticles } from "@/lib/wiki-articles";
 
 export default function HomePage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const featuredGuides = listWikiArticles().slice(0, 3);
 
   return (
     <>
@@ -56,16 +59,31 @@ export default function HomePage() {
 
           <article className="essay-article">
             <h3>{t.home.essayWhatTitle}</h3>
-            <p>{t.home.essayWhat}</p>
+            <p>
+              {t.home.essayWhat}{" "}
+              <Link href="/wiki/texas-holdem-rules" className="inline-wiki-link">
+                {t.seo.hubs.wiki}
+              </Link>
+            </p>
 
             <h3>{t.home.essayRulesTitle}</h3>
             <p>{t.home.essayRules}</p>
 
             <h3>{t.home.essayMindTitle}</h3>
-            <p>{t.home.essayMind}</p>
+            <p>
+              {t.home.essayMind}{" "}
+              <Link href="/wiki/tilt" className="inline-wiki-link">
+                Tilt
+              </Link>
+            </p>
 
             <h3>{t.home.essayWinrateTitle}</h3>
-            <p>{t.home.essayWinrate}</p>
+            <p>
+              {t.home.essayWinrate}{" "}
+              <Link href="/wiki/pot-odds" className="inline-wiki-link">
+                {locale === "zh" ? "底池賠率" : "Pot odds"}
+              </Link>
+            </p>
 
             <h3>{t.home.essayTimeTitle}</h3>
             <p>{t.home.essayTime}</p>
@@ -95,6 +113,10 @@ export default function HomePage() {
               <h3>{t.home.entryNews}</h3>
               <p>{t.home.entryNewsDesc}</p>
             </Link>
+            <Link href="/wiki" className="entry-card">
+              <h3>{t.home.wikiTitle}</h3>
+              <p>{t.home.wikiBody}</p>
+            </Link>
           </div>
 
           <div className="why-banner">
@@ -108,6 +130,22 @@ export default function HomePage() {
             >
               {t.home.whyCta}
             </a>
+          </div>
+
+          <h2 className="section-title" style={{ marginTop: "2.5rem" }}>
+            {t.wiki.guidesTitle}
+          </h2>
+          <div className="wiki-guide-grid">
+            {featuredGuides.map((article) => (
+              <Link
+                key={article.slug}
+                href={`/wiki/${article.slug}`}
+                className="wiki-guide-card"
+              >
+                <h3>{article.title[locale]}</h3>
+                <p className="muted">{article.teaser[locale]}</p>
+              </Link>
+            ))}
           </div>
 
           <div className="feature-grid">
@@ -124,6 +162,8 @@ export default function HomePage() {
               <p>{t.home.wikiBody}</p>
             </article>
           </div>
+
+          <InternalLinks current="home" />
         </div>
       </section>
     </>

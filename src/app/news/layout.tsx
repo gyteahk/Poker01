@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { getSiteUrl } from "@/lib/site";
 
-const title = "時事快睇";
-const fullTitle = "時事快睇 | POKER01";
+const title = "撲克新聞時事快睇";
+const fullTitle = "撲克新聞時事快睇 | POKER01";
 const description =
-  "POKER01 時事快睇：最新撲克話題，同 Poker 世界零距離。";
+  "POKER01 時事快睇：最新撲克新聞同話題整理，幫你跟上 Poker 世界動態。";
 
 export const metadata: Metadata = {
   title,

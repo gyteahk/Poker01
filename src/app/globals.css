@@ -779,7 +779,7 @@ body:has(.sticky-cta) .main-with-cta {
 
 .entry-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -989,6 +989,103 @@ body:has(.sticky-cta) .main-with-cta {
 }
 .wiki-toc-link:hover { color: var(--cyan); border-color: rgba(0, 194, 215, 0.35); }
 .mindset-item { scroll-margin-top: 6rem; }
+
+.wiki-guides-intro { margin: 0.35rem 0 0; }
+.wiki-guide-grid {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.wiki-guide-card {
+  display: block;
+  padding: 1.1rem 1.15rem 1.2rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(26, 33, 64, 0.08);
+  box-shadow: 0 10px 28px rgba(26, 33, 64, 0.05);
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+.wiki-guide-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 194, 215, 0.35);
+}
+.wiki-guide-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.02rem;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.wiki-guide-cta {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--cyan);
+}
+.wiki-article-shell { max-width: 46rem; }
+.wiki-article-section {
+  margin-top: 1.75rem;
+}
+.wiki-article-section h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.25rem;
+}
+.wiki-article-section p {
+  margin: 0 0 0.9rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+.wiki-related { margin-top: 2.5rem; }
+.inline-wiki-link {
+  color: var(--cyan);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.internal-links {
+  margin: 2.75rem 0 1rem;
+  padding: 1.25rem 1.2rem 1.35rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(26, 33, 64, 0.08);
+}
+.internal-links-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+.internal-links-hub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.internal-chip {
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(0, 194, 215, 0.12);
+  color: var(--ink);
+  border: 1px solid rgba(0, 194, 215, 0.22);
+}
+.internal-chip:hover { background: rgba(0, 194, 215, 0.2); }
+.internal-links-label {
+  margin: 1.1rem 0 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.internal-links-guides {
+  display: grid;
+  gap: 0.4rem;
+}
+.internal-guide-link {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.internal-guide-link:hover { color: var(--cyan); }
 
 .status-page {
   padding-top: 2rem;
