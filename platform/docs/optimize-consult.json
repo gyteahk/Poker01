@@ -1,0 +1,113 @@
+{
+  "deepseek": {
+    "uiOptimizations": [
+      "Add a persistent sticky header with wallet balance, deposit/withdraw quick actions, and a live win counter to reduce friction.",
+      "Implement skeleton loaders and lazy loading for game tiles and sports events to improve perceived performance.",
+      "Introduce a 'Favorites' or 'Recently Played' row in the lobby to boost engagement and reduce bounce.",
+      "Use micro-animations on hover for game tiles (e.g., subtle scale + glow) to reinforce the purple/gold premium feel.",
+      "Add a dark/light mode toggle that respects system preference, with purple/gold as accent in both.",
+      "Show a 'Live Now' badge on sports events with active betting lines to drive urgency."
+    ],
+    "priorities": [
+      {
+        "rank": 1,
+        "item": "Deploy to production with HTTPS and configure NOWPayments IPN endpoint",
+        "why": "Without production deployment, the product is inaccessible to real users; IPN is critical for automated deposit confirmation and preventing revenue leakage."
+      },
+      {
+        "rank": 2,
+        "item": "Integrate a real sports data API (e.g., TheOddsAPI, Sportradar) with live odds",
+        "why": "The sportsbook stub is non-functional; real data is the core value proposition for sports bettors and drives repeat traffic."
+      },
+      {
+        "rank": 3,
+        "item": "Connect a real game aggregator API (e.g., Pragmatic Play, Evolution) for the lobby",
+        "why": "Game tiles with Gemini images are cosmetic; actual playable games are required to retain casino users and generate revenue."
+      },
+      {
+        "rank": 4,
+        "item": "Implement NOWPayments automated payouts for withdrawals",
+        "why": "Manual or missing payout capability will cause user trust erosion and regulatory risk; auto payouts reduce operational overhead."
+      },
+      {
+        "rank": 5,
+        "item": "Add OTP-based two-factor authentication for withdrawals and admin actions",
+        "why": "Security is paramount for a financial product; OTP prevents unauthorized withdrawals and protects admin panels from compromise."
+      }
+    ],
+    "risks": [
+      "IPN endpoint not configured: deposits may not be credited automatically, leading to user complaints and manual reconciliation overhead.",
+      "Real API integration delays: the product remains a demo, failing to attract and retain users, burning runway.",
+      "Regulatory exposure: operating a real-money gambling site without proper licensing or KYC/AML could lead to legal action or payment processor shutdown.",
+      "Gemini-generated images may violate copyright or trademark of game providers if not carefully curated.",
+      "Withdrawal risk auto ≤1000 may be bypassed if not enforced server-side; insufficient testing could cause financial loss.",
+      "Single point of failure: relying solely on NOWPayments for crypto processing; any downtime or policy change halts deposits/withdrawals."
+    ],
+    "oneLiner": "Deploy to production with IPN first, then swap stubs for real APIs to turn a polished demo into a revenue-generating casino."
+  },
+  "gemini": {
+    "model": "gemini-2.5-flash",
+    "uiOptimizations": [
+      "Add a persistent sticky header with wallet balance, deposit/withdraw quick actions, and a live win counter to reduce friction. (Agree - Essential for core actions and engagement)",
+      "Implement skeleton loaders and lazy loading for game tiles and sports events to improve perceived performance. (Agree - Crucial for a smooth experience with rich content)",
+      "Introduce a 'Favorites' or 'Recently Played' row in the lobby to boost engagement and reduce bounce. (Agree - Personalization significantly improves UX)",
+      "Use micro-animations on hover for game tiles (e.g., subtle scale + glow) to reinforce the purple/gold premium feel. (Agree - Good for polish, but ensure performance impact is minimal)",
+      "Add a dark/light mode toggle that respects system preference, with purple/gold as accent in both. (Agree - Standard modern web feature, good for user preference)",
+      "Show a 'Live Now' badge on sports events with active betting lines to drive urgency. (Agree - Critical for sports betting to highlight immediate opportunities)"
+    ],
+    "priorities": [
+      {
+        "rank": 1,
+        "item": "Deploy to production with HTTPS and configure NOWPayments IPN endpoint",
+        "why": "Without production deployment, the product is inaccessible to real users; IPN is critical for automated deposit confirmation and preventing revenue leakage. This is the absolute foundation for any real-money operation."
+      },
+      {
+        "rank": 2,
+        "item": "Integrate a real sports data API (e.g., TheOddsAPI, Sportradar) with live odds",
+        "why": "The sportsbook stub is non-functional; real data is the core value proposition for sports bettors and drives repeat traffic. This directly enables the 'sports' part of cyber888.win."
+      },
+      {
+        "rank": 3,
+        "item": "Connect a real game aggregator API (e.g., Pragmatic Play, Evolution) for the lobby",
+        "why": "Game tiles with Gemini images are cosmetic; actual playable games are required to retain casino users and generate revenue. This directly enables the 'casino' part."
+      },
+      {
+        "rank": 4,
+        "item": "Implement NOWPayments automated payouts for withdrawals",
+        "why": "Manual or missing payout capability will cause user trust erosion and regulatory risk; auto payouts reduce operational overhead and are expected by crypto users."
+      },
+      {
+        "rank": 5,
+        "item": "Add OTP-based two-factor authentication for withdrawals and admin actions",
+        "why": "Security is paramount for a financial product; OTP prevents unauthorized withdrawals and protects admin panels from compromise, building user confidence."
+      }
+    ],
+    "risks": [
+      "IPN endpoint not configured: deposits may not be credited automatically, leading to user complaints, manual reconciliation overhead, and significant trust issues.",
+      "Real API integration delays: the product remains a demo, failing to attract and retain users, burning runway and wasting development effort.",
+      "Regulatory exposure: operating a real-money gambling site without proper licensing, KYC/AML, and responsible gambling measures could lead to severe legal action, payment processor shutdowns, and reputational damage. This is a foundational risk.",
+      "Gemini-generated images may violate copyright or trademark of game providers if not carefully curated. Using official assets is crucial.",
+      "Withdrawal risk auto ≤1000 may be bypassed if not enforced server-side; insufficient testing or client-side only enforcement could cause significant financial loss.",
+      "Single point of failure: relying solely on NOWPayments for crypto processing; any downtime, policy change, or API issue halts deposits/withdrawals, impacting revenue and user experience. Consider redundancy long-term.",
+      "Security vulnerabilities: Inadequate security measures (beyond 2FA) for user funds and personal data, leading to potential hacks or data breaches."
+    ],
+    "oneLiner": "Deploy to production with IPN first, then swap stubs for real APIs and implement payouts to swiftly turn a polished demo into a revenue-generating, secure casino and sportsbook.",
+    "geminiNotes": [
+      "**NOWPayments IPN Deployment - Missing Aspects:**",
+      "1.  **Security & Validation:** The IPN endpoint *must* validate the authenticity of incoming requests (e.g., HMAC signature validation as provided by NOWPayments) to prevent spoofing. It also needs to be secured with HTTPS and potentially IP whitelisting.",
+      "2.  **Idempotency:** The system receiving IPN notifications must be idempotent, meaning processing the same notification multiple times (due to retries) does not lead to duplicate credits or errors. Store and check transaction IDs.",
+      "3.  **Robust Error Handling & Logging:** Implement comprehensive error logging for failed IPN processing and a retry mechanism (if not handled by NOWPayments) to ensure no deposit is missed. Configure monitoring and alerts for IPN failures.",
+      "4.  **Transaction Status Mapping:** Clearly map NOWPayments' various transaction statuses (e.g., 'waiting', 'confirming', 'confirmed', 'failed', 'refunded') to your internal system's states to accurately reflect deposit progress to users.",
+      "5.  **User Feedback:** Ensure the user's balance and transaction history are updated in near real-time upon successful IPN receipt. Proactive notifications (e.g., email, in-app) for deposit status changes are beneficial.",
+      "6.  **Scalability:** Design the IPN endpoint to handle a potentially high volume of concurrent notifications during peak times.",
+      "",
+      "**Game Covers UX - Missing Aspects:**",
+      "1.  **High-Quality, Official Imagery:** Beyond avoiding Gemini-generated images, ensure all game covers are official, high-resolution, and consistent in style and aspect ratio. Incorrect or low-quality covers reflect poorly on the platform.",
+      "2.  **Rich Metadata Overlay:** On hover or directly on the tile, display key metadata like game provider name, RTP (where legally required or relevant), volatility rating, 'New'/'Hot' badges, or jackpot indicators to help users quickly choose.",
+      "3.  **Advanced Filtering & Sorting:** Offer robust filtering options beyond simple categories (e.g., filter by provider, game features like 'Megaways' or 'Bonus Buy', theme, popularity, date added). Comprehensive search functionality is also vital for large libraries.",
+      "4.  **Demo Mode Indicator:** Clearly indicate which games offer a 'Demo Play' or 'Try for Free' option, allowing users to experience games without wagering real money.",
+      "5.  **Responsive Layout & Performance:** Game tiles must adapt flawlessly across various devices and screen sizes. Optimize image loading (e.g., WebP, appropriate sizes) to maintain fast load times without sacrificing quality."
+    ]
+  },
+  "cursorSynthesis": null
+}

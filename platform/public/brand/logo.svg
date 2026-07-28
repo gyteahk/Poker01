@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455 40" fill="none" role="img" aria-label="cyber888.win">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0D78C"/>
+      <stop offset="45%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#A8891E"/>
+    </linearGradient>
+    <linearGradient id="goldText" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F5E6A8"/>
+      <stop offset="55%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#B8922A"/>
+    </linearGradient>
+  </defs>
+  <!-- shield height ≈ text size + 2 -->
+  <path
+    fill="url(#gold)"
+    stroke="#F0D78C"
+    stroke-width="1"
+    d="M18 1
+       C18 1 31 2.5 34.5 5
+       C36 10 36 18 34.5 24.5
+       C31 30.5 21.5 35 18 36.5
+       C14.5 35 5 30.5 1.5 24.5
+       C0 18 0 10 1.5 5
+       C5 2.5 18 1 18 1Z"
+  />
+  <text
+    x="44"
+    y="29"
+    font-family="Exo 2, Rajdhani, Segoe UI, sans-serif"
+    font-size="28"
+    font-weight="800"
+    font-style="italic"
+    letter-spacing="0.35"
+  >
+    <tspan fill="#FFFFFF">cyber</tspan><tspan fill="url(#goldText)">888</tspan><tspan fill="#D8B4FE" font-size="23">.win</tspan>
+  </text>
+</svg>
