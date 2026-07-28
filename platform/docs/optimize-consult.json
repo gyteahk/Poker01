@@ -1,4 +1,4 @@
-{
+﻿{
   "deepseek": {
     "uiOptimizations": [
       "Add a persistent sticky header with wallet balance, deposit/withdraw quick actions, and a live win counter to reduce friction.",
@@ -64,7 +64,7 @@
       {
         "rank": 2,
         "item": "Integrate a real sports data API (e.g., TheOddsAPI, Sportradar) with live odds",
-        "why": "The sportsbook stub is non-functional; real data is the core value proposition for sports bettors and drives repeat traffic. This directly enables the 'sports' part of cyber888.win."
+        "why": "The sportsbook stub is non-functional; real data is the core value proposition for sports bettors and drives repeat traffic. This directly enables the 'sports' part of cyber888.vip."
       },
       {
         "rank": 3,

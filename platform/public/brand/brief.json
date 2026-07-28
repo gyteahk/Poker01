@@ -1,8 +1,8 @@
-{
+﻿{
   "deepseek": {
     "concept": "A futuristic, gladiatorial '888' logo mark merged with a cybernetic aesthetic, using a stylized '8' that forms an infinity-like shield, paired with a bold, sans-serif wordmark that emphasizes the '888' as a digital crown.",
     "markDescription": "Three overlapping, slightly skewed '8's arranged in a triangular formation, with the top '8' acting as a crown, the bottom two as pillars. The forms are clean, geometric, with a subtle gradient from gold (#FFD700) to a deeper amber (#B8860B), and a faint, glowing outline to suggest a digital shield or arena.",
-    "wordmarkStyle": "A custom, condensed sans-serif font (similar to 'Futura PT Condensed' or 'Montserrat Alternates') with the 'cyber' in a lighter weight, the '888' in bold with a slight 3D bevel effect in gold, and '.win' in a small, uppercase, light purple (#D8B4FE). The wordmark is set on a single line, with tight kerning to fit the header height.",
+    "wordmarkStyle": "A custom, condensed sans-serif font (similar to 'Futura PT Condensed' or 'Montserrat Alternates') with the 'cyber' in a lighter weight, the '888' in bold with a slight 3D bevel effect in gold, and '.vip' in a small, uppercase, light purple (#D8B4FE). The wordmark is set on a single line, with tight kerning to fit the header height.",
     "colorHex": {
       "primary": "#5B2D8E",
       "gold": "#FFD700",
@@ -10,10 +10,10 @@
       "accentLight": "#D8B4FE",
       "textWhite": "#FFFFFF"
     },
-    "imagePromptEnglish": "A high-contrast, vector-style logo mark for a crypto sportsbook: three overlapping, skewed '8's in gold (#FFD700 to #B8860B gradient) forming a triangular shield, with a subtle glowing edge. The background is a dark purple (#5B2D8E) header bar. Next to it, a wordmark 'cyber888.win' in a condensed sans-serif font: 'cyber' in white, '888' in bold gold with a slight 3D bevel, '.win' in light purple (#D8B4FE). The overall style is sleek, modern, and digital, with a gladiatorial or esports vibe. No text other than the wordmark. The logo and wordmark are centered on a purple bar, readable at small size (32px height).",
+    "imagePromptEnglish": "A high-contrast, vector-style logo mark for a crypto sportsbook: three overlapping, skewed '8's in gold (#FFD700 to #B8860B gradient) forming a triangular shield, with a subtle glowing edge. The background is a dark purple (#5B2D8E) header bar. Next to it, a wordmark 'cyber888.vip' in a condensed sans-serif font: 'cyber' in white, '888' in bold gold with a slight 3D bevel, '.vip' in light purple (#D8B4FE). The overall style is sleek, modern, and digital, with a gladiatorial or esports vibe. No text other than the wordmark. The logo and wordmark are centered on a purple bar, readable at small size (32px height).",
     "uiTweaks": [
       "Use a subtle gold drop shadow on the logo mark to create depth against the dark purple header, but keep it tight (1px offset, 2px blur) to avoid clutter.",
-      "For the wordmark, apply a slight letter-spacing increase (0.5px) on 'cyber' and '.win' to balance the boldness of '888' and improve legibility at small sizes.",
+      "For the wordmark, apply a slight letter-spacing increase (0.5px) on 'cyber' and '.vip' to balance the boldness of '888' and improve legibility at small sizes.",
       "Add a thin, horizontal gold line (1px, #FFD700, 60% opacity) below the header bar to visually separate it from the main content, reinforcing the premium feel."
     ]
   },
@@ -21,5 +21,5 @@
     "error": "gemini 404",
     "body": "{\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use a newer model for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/migrate-to-interactions).\",\n    \"status\": \"NOT_FOUND\"\n  }\n}\n"
   },
-  "imagePrompt": "A high-contrast, vector-style logo mark for a crypto sportsbook: three overlapping, skewed '8's in gold (#FFD700 to #B8860B gradient) forming a triangular shield, with a subtle glowing edge. The background is a dark purple (#5B2D8E) header bar. Next to it, a wordmark 'cyber888.win' in a condensed sans-serif font: 'cyber' in white, '888' in bold gold with a slight 3D bevel, '.win' in light purple (#D8B4FE). The overall style is sleek, modern, and digital, with a gladiatorial or esports vibe. No text other than the wordmark. The logo and wordmark are centered on a purple bar, readable at small size (32px height)."
+  "imagePrompt": "A high-contrast, vector-style logo mark for a crypto sportsbook: three overlapping, skewed '8's in gold (#FFD700 to #B8860B gradient) forming a triangular shield, with a subtle glowing edge. The background is a dark purple (#5B2D8E) header bar. Next to it, a wordmark 'cyber888.vip' in a condensed sans-serif font: 'cyber' in white, '888' in bold gold with a slight 3D bevel, '.vip' in light purple (#D8B4FE). The overall style is sleek, modern, and digital, with a gladiatorial or esports vibe. No text other than the wordmark. The logo and wordmark are centered on a purple bar, readable at small size (32px height)."
 }

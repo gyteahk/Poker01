@@ -1,4 +1,4 @@
-# cyber888.win 部署準備
+﻿# cyber888.vip 部署準備
 
 本平台係 **Next.js + Prisma**，有伺服器 session、webhook、帳本寫入。  
 **唔建議**用純靜態／無持久磁碟嘅 serverless + SQLite。
@@ -7,7 +7,7 @@
 
 | 項目 | 建議 |
 |------|------|
-| 域名 | `cyber888.win`（A／CNAME 指到主機） |
+| 域名 | `cyber888.vip`（A／CNAME 指到主機） |
 | 應用 | Node 跑 `next start`（VPS／Railway／Render／Fly） |
 | 資料庫 | **PostgreSQL**（上線必換；本機開發可繼續 SQLite） |
 | HTTPS | Cloudflare 或主機憑證 |
@@ -15,7 +15,7 @@
 
 ## 你要準備／交嚟嘅嘢
 
-1. 域名 `cyber888.win` 嘅 DNS 控制權（Cloudflare 最好）  
+1. 域名 `cyber888.vip` 嘅 DNS 控制權（Cloudflare 最好）  
 2. 一部主機或 PaaS 帳號（任揀一種）：  
    - **VPS**（例如 Ubuntu 22.04，2GB RAM 起）  
    - 或 Railway／Render／Fly  
@@ -30,7 +30,7 @@
 DATABASE_URL="postgresql://USER:PASS@HOST:5432/cyber888?schema=public"
 SESSION_SECRET="至少32字元隨機字串"
 USDT_GATEWAY_WEBHOOK_SECRET="之後接 gateway 再填"
-ADMIN_BOOTSTRAP_EMAIL="admin@cyber888.win"
+ADMIN_BOOTSTRAP_EMAIL="admin@cyber888.vip"
 ADMIN_BOOTSTRAP_PASSWORD="強密碼"
 NODE_ENV="production"
 ```
@@ -38,10 +38,10 @@ NODE_ENV="production"
 可選：
 
 ```env
-NEXT_PUBLIC_SITE_URL="https://cyber888.win"
+NEXT_PUBLIC_SITE_URL="https://cyber888.vip"
 USDT_GATEWAY_BASE_URL=
 USDT_GATEWAY_API_KEY=
-USDT_GATEWAY_CALLBACK_URL="https://cyber888.win/api/deposit/webhook"
+USDT_GATEWAY_CALLBACK_URL="https://cyber888.vip/api/deposit/webhook"
 ```
 
 ## 切換 Postgres（上線前）
@@ -82,7 +82,7 @@ npm run build
 npx pm2 start npm --name cyber888 -- start
 ```
 
-反代（Nginx／Caddy）把 `cyber888.win` → `127.0.0.1:3001`，並開 HTTPS。
+反代（Nginx／Caddy）把 `cyber888.vip` → `127.0.0.1:3001`，並開 HTTPS。
 
 ## Cloudflare
 

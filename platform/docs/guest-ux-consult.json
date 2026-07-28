@@ -1,0 +1,484 @@
+{
+  "deepseek": {
+    "guestExperiencePillars": [
+      {
+        "name": "Instant Trust & Clarity",
+        "why": "Guests decide in seconds; purple+gold must signal credibility, not confusion.",
+        "doNow": "Add visible license/regulation footer, SSL badge, and a 'Why USDT?' explainer popup."
+      },
+      {
+        "name": "Zero-Friction Wallet Flow",
+        "why": "Crypto users abandon if deposit/withdraw takes >2 taps.",
+        "doNow": "Pre-fill TRC20 address from clipboard, show live USDT balance, add 'Copy Address' with toast."
+      },
+      {
+        "name": "Stub Content That Feels Real",
+        "why": "Empty states kill confidence; placeholder games/sports must look intentional.",
+        "doNow": "Use Gemini covers with 'Coming Soon' overlay, add countdown timer for next fake match."
+      }
+    ],
+    "uxImprovementsNow": [
+      {
+        "area": "Homepage hero",
+        "change": "Replace generic banner with live USDT price ticker + 'Deposit Now' CTA",
+        "effort": "S",
+        "impact": "H"
+      },
+      {
+        "area": "Navigation",
+        "change": "Sticky bottom nav (mobile) + top nav (desktop) with icons for Sports, Casino, Wallet, Support",
+        "effort": "M",
+        "impact": "H"
+      },
+      {
+        "area": "Wallet page",
+        "change": "Show transaction history with status badges (Pending/Confirmed) and one-tap copy address",
+        "effort": "M",
+        "impact": "H"
+      },
+      {
+        "area": "Sports stub",
+        "change": "Display fake upcoming matches with team logos (Gemini) and 'Odds coming soon' badge",
+        "effort": "S",
+        "impact": "M"
+      },
+      {
+        "area": "Casino lobby",
+        "change": "Categorize games (Slots, Live, Table) with Gemini covers; add search bar",
+        "effort": "M",
+        "impact": "M"
+      },
+      {
+        "area": "Deposit modal",
+        "change": "Auto-detect USDT balance in wallet, show QR + address side by side",
+        "effort": "S",
+        "impact": "H"
+      },
+      {
+        "area": "Withdraw modal",
+        "change": "Add address book (save last 3 addresses) and minimum/max limits",
+        "effort": "M",
+        "impact": "M"
+      },
+      {
+        "area": "Footer",
+        "change": "Add 'Responsible Gaming' link, live chat stub (email/telegram), and version number",
+        "effort": "S",
+        "impact": "L"
+      },
+      {
+        "area": "Loading states",
+        "change": "Skeleton screens for all list pages instead of spinners",
+        "effort": "M",
+        "impact": "M"
+      },
+      {
+        "area": "Color contrast",
+        "change": "Ensure purple text on gold background passes WCAG AA (add dark overlay if needed)",
+        "effort": "S",
+        "impact": "H"
+      }
+    ],
+    "sportsApiSources": [
+      {
+        "name": "The Odds API",
+        "type": "odds",
+        "howToFind": "the-odds-api.com — free tier for testing",
+        "notes": "Best for pre-match odds; covers 80+ leagues; easy JSON."
+      },
+      {
+        "name": "Sportmonks",
+        "type": "odds",
+        "howToFind": "sportmonks.com — cricket/football focus",
+        "notes": "Good for Asia markets; paid plans start ~$99/mo."
+      },
+      {
+        "name": "Bet365 API (via white-label)",
+        "type": "sportsbook-b2b",
+        "howToFind": "Contact bet365partners.com",
+        "notes": "Full sportsbook solution but requires minimum volume and compliance."
+      },
+      {
+        "name": "Kambi",
+        "type": "sportsbook-b2b",
+        "howToFind": "kambi.com — enterprise B2B",
+        "notes": "Top-tier but expensive; requires legal entity and due diligence."
+      },
+      {
+        "name": "RapidAPI (Sports Odds)",
+        "type": "feeds",
+        "howToFind": "rapidapi.com/collection/sports-odds",
+        "notes": "Aggregated feeds; quick to integrate but may have latency."
+      }
+    ],
+    "gameApiSources": [
+      {
+        "name": "Pragmatic Play",
+        "type": "aggregator",
+        "howToFind": "pragmaticplay.com — contact sales",
+        "notes": "Top slots + live casino; direct integration or via aggregator."
+      },
+      {
+        "name": "Evolution Gaming",
+        "type": "studio-direct",
+        "howToFind": "evolution.com — B2B form",
+        "notes": "Best live dealer; requires separate agreement."
+      },
+      {
+        "name": "SoftSwiss Game Aggregator",
+        "type": "aggregator",
+        "howToFind": "softswiss.com/game-aggregator",
+        "notes": "One API to 100+ studios; popular for crypto casinos."
+      },
+      {
+        "name": "BetConstruct",
+        "type": "aggregator",
+        "howToFind": "betconstruct.com — sportsbook + casino",
+        "notes": "Full turnkey; includes sportsbook and games."
+      },
+      {
+        "name": "Ezugi",
+        "type": "studio-direct",
+        "howToFind": "ezugi.com — live dealer",
+        "notes": "Good for Asian markets; lower minimum than Evolution."
+      }
+    ],
+    "parallelWorkWhileWaitingApis": [
+      "Implement full guest demo mode (no login required to browse sports/casino stub).",
+      "Build referral/affiliate tracking system (invite code + commission logic).",
+      "Set up KYC flow (email OTP + ID upload) for future compliance.",
+      "Create admin dashboard v2: user management, deposit/withdraw logs, bonus config.",
+      "Write API documentation for future sports/game integration (OpenAPI spec).",
+      "Design and implement push notification system (Telegram bot for withdrawals).",
+      "Localize UI for target markets (Thai, Vietnamese, Chinese, English).",
+      "Perform security audit (smart contract wallet, XSS, CSRF, rate limiting).",
+      "Build bonus engine (welcome bonus, reload, cashback) as configurable rules.",
+      "Create 'How to Bet' guide page with screenshots and video (Gemini)."
+    ],
+    "phasedGoAhead": [
+      {
+        "phase": 1,
+        "title": "Beauty & Trust MVP",
+        "doneWhen": "Guest can deposit/withdraw USDT, browse stub content, feel premium.",
+        "tasks": [
+          "Implement all UX improvements from list above",
+          "Add license footer and trust badges",
+          "Deploy skeleton screens and loading states",
+          "Test wallet flow on mobile + desktop"
+        ]
+      },
+      {
+        "phase": 2,
+        "title": "Demo & Engagement",
+        "doneWhen": "Guests can explore full stub experience without login, see fake odds/games.",
+        "tasks": [
+          "Build guest demo mode",
+          "Add countdown timers to fake matches",
+          "Create 'Coming Soon' notifications for games",
+          "Implement referral tracking"
+        ]
+      },
+      {
+        "phase": 3,
+        "title": "API Integration Prep",
+        "doneWhen": "Backend ready to consume real sports/game APIs with minimal code changes.",
+        "tasks": [
+          "Write OpenAPI spec for sports and game endpoints",
+          "Create adapter layer for odds providers",
+          "Set up game aggregator sandbox accounts",
+          "Test sample data from The Odds API"
+        ]
+      },
+      {
+        "phase": 4,
+        "title": "Go Live with Real Data",
+        "doneWhen": "Real sports odds and games appear in lobby; first real bet placed.",
+        "tasks": [
+          "Integrate chosen sports API",
+          "Integrate game aggregator",
+          "Remove stub content gradually",
+          "Monitor latency and error rates"
+        ]
+      },
+      {
+        "phase": 5,
+        "title": "Retention & Monetization",
+        "doneWhen": "Bonuses, promotions, and notifications drive repeat visits.",
+        "tasks": [
+          "Activate bonus engine",
+          "Launch push notifications (Telegram)",
+          "Add leaderboards and tournaments",
+          "Optimize for SEO and organic traffic"
+        ]
+      }
+    ],
+    "antiPatterns": [
+      "Using real money or fake odds without clear 'Demo' label — can mislead guests.",
+      "Hardcoding API keys or wallet addresses in frontend code.",
+      "Showing empty pages with no placeholder content — kills trust.",
+      "Ignoring mobile-first design — most crypto users are mobile.",
+      "Overcomplicating wallet flow with unnecessary confirmations.",
+      "Using generic stock photos instead of Gemini-generated branded assets.",
+      "Delaying security audit until after launch."
+    ],
+    "oneLiner": "Make guests feel like they're already in a premium sportsbook — even before the first real bet — by polishing every pixel, flow, and trust signal now."
+  },
+  "gemini": {
+    "model": "gemini-2.5-flash",
+    "guestExperiencePillars": [
+      {
+        "name": "Instant Trust & Clarity",
+        "why": "Guests decide in seconds; purple+gold must signal credibility, not confusion. First-time visitors need immediate reassurance and a clear value proposition.",
+        "doNow": "Add visible license/regulation footer, SSL badge, and a 'Why USDT?' explainer popup. Implement a clear, concise welcome message on the homepage hero for first-time visitors."
+      },
+      {
+        "name": "Zero-Friction Wallet Flow",
+        "why": "Crypto users abandon if deposit/withdraw takes >2 taps or isn't crystal clear. Wallet actions are high-trust points.",
+        "doNow": "Pre-fill TRC20 address from clipboard, show live USDT balance, add 'Copy Address' with toast. Ensure all critical wallet CTAs (Deposit, Withdraw) are easily thumb-tapped on mobile."
+      },
+      {
+        "name": "Stub Content That Feels Real",
+        "why": "Empty states kill confidence; placeholder games/sports must look intentional, premium, and invite exploration, even without live data.",
+        "doNow": "Use Gemini covers with 'Coming Soon' overlay, add countdown timer for next fake match. Implement interactive hover states for stub games/matches to give a sense of depth and future engagement."
+      }
+    ],
+    "uxImprovementsNow": [
+      {
+        "area": "Homepage hero",
+        "change": "Replace generic banner with live USDT price ticker + clear 'Deposit Now' CTA, a rotating message highlighting current 'stub' features, and a concise welcome message for new users.",
+        "effort": "S",
+        "impact": "H"
+      },
+      {
+        "area": "Navigation",
+        "change": "Sticky bottom nav (mobile) with enlarged, thumb-zone friendly icons for Sports, Casino, Wallet, Support. Sticky top nav (desktop) with consistent branding and clear primary actions.",
+        "effort": "M",
+        "impact": "H"
+      },
+      {
+        "area": "Wallet page",
+        "change": "Show transaction history with status badges (Pending/Confirmed/Failed), one-tap copy address, and links to 'How to Deposit/Withdraw' guides. Clearly display available vs. locked balances.",
+        "effort": "M",
+        "impact": "H"
+      },
+      {
+        "area": "Sports stub",
+        "change": "Display fake upcoming matches with premium Gemini team logos and 'Odds coming soon' badge. Add a prominent 'Learn More' or 'Set Reminder' CTA to engage users with future content.",
+        "effort": "S",
+        "impact": "M"
+      },
+      {
+        "area": "Casino lobby",
+        "change": "Categorize games (Slots, Live, Table) with engaging Gemini covers; add search bar and prominent 'Play Demo' buttons (even if it leads to a static splash with game info).",
+        "effort": "M",
+        "impact": "M"
+      },
+      {
+        "area": "Deposit modal",
+        "change": "Clear, step-by-step instructions for depositing via QR or address. Include estimated network fees, minimum deposit, and a 'Waiting for Confirmation' state. (Replaced auto-detect as impractical).",
+        "effort": "S",
+        "impact": "H"
+      },
+      {
+        "area": "Withdraw modal",
+        "change": "Add address book (save last 3 addresses), clear minimum/maximum limits, and estimated transaction fees. Ensure large, clear input fields and confirmation buttons.",
+        "effort": "M",
+        "impact": "M"
+      },
+      {
+        "area": "Footer",
+        "change": "Add 'Responsible Gaming' link, live chat stub (email/telegram/Discord link), version number, and links to Terms & Conditions, Privacy Policy, and KYC Policy.",
+        "effort": "S",
+        "impact": "L"
+      },
+      {
+        "area": "Loading states",
+        "change": "Skeleton screens with branded purple/gold animations for all list pages and content areas instead of generic spinners.",
+        "effort": "M",
+        "impact": "M"
+      },
+      {
+        "area": "Color contrast",
+        "change": "Ensure all purple text on gold background (and vice-versa) passes WCAG AA for readability. Implement subtle dark overlays or text shadows where needed for critical information.",
+        "effort": "S",
+        "impact": "H"
+      },
+      {
+        "area": "Onboarding/Welcome",
+        "change": "Implement an optional, concise 'Welcome Tour' or tooltip sequence for first-time visitors, highlighting key areas like Wallet, Sports, Casino, and Support.",
+        "effort": "M",
+        "impact": "M"
+      },
+      {
+        "area": "Fee Disclosure",
+        "change": "Clearly communicate any potential network or platform fees for deposits/withdrawals upfront within the wallet flow.",
+        "effort": "S",
+        "impact": "H"
+      }
+    ],
+    "sportsApiSources": [
+      {
+        "name": "The Odds API",
+        "type": "odds",
+        "howToFind": "the-odds-api.com — free tier for testing",
+        "notes": "Best for pre-match odds; covers 80+ leagues; easy JSON. Good for initial integration."
+      },
+      {
+        "name": "Sportmonks",
+        "type": "odds",
+        "howToFind": "sportmonks.com — cricket/football focus",
+        "notes": "Good for Asia markets; paid plans start ~$99/mo. Offers a robust data feed."
+      },
+      {
+        "name": "Bet365 API (via white-label)",
+        "type": "sportsbook-b2b",
+        "howToFind": "Contact bet365partners.com",
+        "notes": "Full sportsbook solution but requires minimum volume and compliance. Enterprise solution."
+      },
+      {
+        "name": "Kambi",
+        "type": "sportsbook-b2b",
+        "howToFind": "kambi.com — enterprise B2B",
+        "notes": "Top-tier but expensive; requires legal entity and due diligence. Comprehensive offering."
+      },
+      {
+        "name": "RapidAPI (Sports Odds)",
+        "type": "feeds",
+        "howToFind": "rapidapi.com/collection/sports-odds",
+        "notes": "Aggregated feeds; quick to integrate but may have latency and varying data quality."
+      }
+    ],
+    "gameApiSources": [
+      {
+        "name": "Pragmatic Play",
+        "type": "aggregator",
+        "howToFind": "pragmaticplay.com — contact sales",
+        "notes": "Top slots + live casino; direct integration or via aggregator. Highly popular."
+      },
+      {
+        "name": "Evolution Gaming",
+        "type": "studio-direct",
+        "howToFind": "evolution.com — B2B form",
+        "notes": "Best live dealer; requires separate agreement. Premium live casino experience."
+      },
+      {
+        "name": "SoftSwiss Game Aggregator",
+        "type": "aggregator",
+        "howToFind": "softswiss.com/game-aggregator",
+        "notes": "One API to 100+ studios; popular for crypto casinos. Streamlines game integration."
+      },
+      {
+        "name": "BetConstruct",
+        "type": "aggregator",
+        "howToFind": "betconstruct.com — sportsbook + casino",
+        "notes": "Full turnkey; includes sportsbook and games. Comprehensive platform solution."
+      },
+      {
+        "name": "Ezugi",
+        "type": "studio-direct",
+        "howToFind": "ezugi.com — live dealer",
+        "notes": "Good for Asian markets; lower minimum than Evolution. Focus on localized live dealer."
+      }
+    ],
+    "parallelWorkWhileWaitingApis": [
+      "Implement full guest demo mode (no login required to browse sports/casino stub content, but wallet actions blocked).",
+      "Build referral/affiliate tracking system (invite code + commission logic).",
+      "Set up KYC flow (email OTP + ID upload) for future compliance readiness.",
+      "Create admin dashboard v2: user management, deposit/withdraw logs, bonus configuration, content management for stub data.",
+      "Write comprehensive API documentation for future sports/game integration (OpenAPI spec).",
+      "Design and implement push notification system (e.g., Telegram bot for withdrawals, SMS for promotions).",
+      "Localize UI for primary target markets (e.g., Thai, Vietnamese, Chinese, English) with proper translation management.",
+      "Perform preliminary security audit (smart contract wallet, XSS, CSRF, rate limiting) and ongoing penetration testing.",
+      "Build bonus engine (welcome bonus, reload, cashback) as configurable rules and UI elements for the frontend.",
+      "Create 'How to Bet' and 'How to Deposit/Withdraw' guide pages with screenshots, videos (using Gemini assets), and FAQs.",
+      "Setup robust web analytics (e.g., GA4, Mixpanel) to track user journeys, engagement with stub content, and conversion funnels.",
+      "Develop initial email marketing automation sequences (welcome series, abandoned deposit reminders, re-engagement campaigns)."
+    ],
+    "phasedGoAhead": [
+      {
+        "phase": 1,
+        "title": "Beauty & Trust MVP",
+        "doneWhen": "Guest can deposit/withdraw USDT securely, browse stub content confidently, and experience a premium, trustworthy feel.",
+        "tasks": [
+          "Implement all UX improvements from list above (including mobile-first nav, wallet clarity, engaging stubs)",
+          "Add license footer, SSL badges, 'Why USDT?' explainer, and comprehensive legal links",
+          "Deploy branded skeleton screens and smooth loading states",
+          "Perform initial user testing on wallet flow (deposit/withdraw) on mobile + desktop"
+        ]
+      },
+      {
+        "phase": 2,
+        "title": "Demo & Engagement",
+        "doneWhen": "Guests can explore the full stub experience without login, are engaged by fake odds/games, and feel compelled to return.",
+        "tasks": [
+          "Build and launch full guest demo mode for sports and casino",
+          "Add countdown timers to all fake matches and 'Play Demo' buttons to casino stubs",
+          "Implement 'Coming Soon' notifications and reminder features for games/matches",
+          "Launch referral tracking system with clear UI for users"
+        ]
+      },
+      {
+        "phase": 3,
+        "title": "API Integration Prep",
+        "doneWhen": "Backend is fully ready to consume real sports/game APIs with minimal code changes, and external systems are configured.",
+        "tasks": [
+          "Finalize OpenAPI spec for sports and game endpoints",
+          "Create robust adapter layer for chosen odds providers (e.g., The Odds API)",
+          "Set up sandbox accounts and preliminary integration with chosen game aggregator (e.g., SoftSwiss)",
+          "Test sample data ingestion and display from The Odds API in a dev environment"
+        ]
+      },
+      {
+        "phase": 4,
+        "title": "Go Live with Real Data",
+        "doneWhen": "Real sports odds and games appear in the lobby; the first real bet is placed, and casino games are fully playable.",
+        "tasks": [
+          "Integrate chosen sports API and display live odds",
+          "Integrate game aggregator for real casino games",
+          "Gradually remove stub content and replace with live data",
+          "Monitor system performance, latency, and error rates rigorously post-launch"
+        ]
+      },
+      {
+        "phase": 5,
+        "title": "Retention & Monetization",
+        "doneWhen": "Bonuses, promotions, and notifications actively drive repeat visits, user lifetime value, and platform growth.",
+        "tasks": [
+          "Activate and launch the bonus engine (welcome, reload, cashback bonuses)",
+          "Launch push notifications (Telegram/SMS) for personalized user engagement",
+          "Implement leaderboards, tournaments, and loyalty programs",
+          "Optimize for SEO, ASO, and organic traffic acquisition"
+        ]
+      }
+    ],
+    "antiPatterns": [
+      "Using real money or fake odds without clear 'Demo' label — can mislead guests and erode trust.",
+      "Hardcoding API keys, sensitive credentials, or wallet addresses directly in frontend code.",
+      "Showing empty pages with no placeholder content, skeleton screens, or clear 'Coming Soon' messaging.",
+      "Ignoring mobile-first design principles, especially for critical interactive elements and navigation.",
+      "Overcomplicating the wallet flow with unnecessary confirmations, unclear instructions, or hidden fees.",
+      "Using generic stock photos or unbranded assets instead of premium Gemini-generated branded content.",
+      "Delaying comprehensive security audits and penetration testing until after initial launch.",
+      "Lack of clear communication regarding API stubs or future features, leaving users guessing.",
+      "Poor color contrast or unreadable text combinations (purple on gold) that violate WCAG AA standards."
+    ],
+    "oneLiner": "Make guests feel like they're already in a premium, trustworthy sportsbook and casino — even before the first real bet — by polishing every pixel, clarifying every flow, and signaling trust at every touchpoint now.",
+    "geminiNotes": [
+      "Utilize Gemini-generated covers extensively for all stub casino games and sports categories to maintain a consistent, premium brand aesthetic.",
+      "Ensure all fake team logos and event imagery for sports stubs are generated using Gemini to match the purple+gold theme.",
+      "Leverage Gemini for visual assets in 'How to Bet' and 'How to Deposit/Withdraw' guides, including screenshots and illustrative videos.",
+      "Design skeleton screens and loading animations with branded purple/gold colors, drawing inspiration from Gemini's visual language.",
+      "Consider rotating banners for 'Featured Stub Game' or 'Top Upcoming Fake Match' using dynamic Gemini-generated visuals to keep the lobby fresh."
+    ],
+    "cursorShouldPrioritize": [
+      "Implement all trust signals (license, SSL, 'Why USDT?' explainer, full legal links, live chat stub) and a welcoming homepage hero for new users to establish credibility immediately.",
+      "Optimize wallet deposit/withdraw flows for 100% clarity, conciseness, and mobile thumb-zone friendliness, including pre-fill, copy-to-clipboard, transaction history, and transparent fee disclosure.",
+      "Transform all stub content (sports, casino) into engaging, interactive placeholders using premium Gemini covers, countdowns, and 'Coming Soon' overlays to build anticipation and comfort.",
+      "Launch the comprehensive guest demo mode, allowing full exploration of all stub content without requiring login to remove friction for first-time visitors.",
+      "Ensure core UX polish: sticky navigation (mobile bottom, desktop top), branded skeleton loading screens, and WCAG AA color contrast for all critical UI elements to deliver a premium feel.",
+      "Kick off the preliminary security audit (smart contract wallet, XSS, CSRF, rate limiting) as a foundational step to build long-term trust.",
+      "Design and implement an optional, concise 'Welcome Tour' or tooltip sequence for first-time visitors to guide them through the site's key features efficiently."
+    ]
+  },
+  "at": "2026-07-28T06:38:58.374Z"
+}

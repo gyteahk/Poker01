@@ -1,5 +1,5 @@
-/**
- * Consult DeepSeek + Gemini for cyber888.win brand/logo brief, then generate logo via Gemini image.
+﻿/**
+ * Consult DeepSeek + Gemini for cyber888.vip brand/logo brief, then generate logo via Gemini image.
  * Usage: node --env-file=../.env.local scripts/brand-consult.mjs
  * (or load dotenv manually)
  */
@@ -31,7 +31,7 @@ loadEnv(rootEnv);
 const deepseekKey = process.env.DEEPSEEK_API_KEY;
 const geminiKey = process.env.GEMINI_API_KEY;
 
-const BRIEF = `Brand: cyber888.win
+const BRIEF = `Brand: cyber888.vip
 Product: crypto sportsbook + casino lobby (USDT-TRC20), purple + gold palette, bet365-like density but branded cyber888.
 Need: logo mark + wordmark direction for dark purple header with gold accents.
 Constraints: no "365", no copying bet365 trademark, readable at 32px height, works on #5b2d8e purple bar.
@@ -144,7 +144,7 @@ async function main() {
   const imagePrompt =
     gm.imagePrompt ||
     ds.imagePromptEnglish ||
-    `App logo for cyber888.win crypto sportsbook. Minimal geometric mark combining stylized "C8" or infinity-888 in metallic gold (#d4af37) on deep purple (#3f1c66). Clean vector, flat, no photorealism, no bet365 copy, square, crisp edges, dark background, professional gambling brand, high contrast for small size.`;
+    `App logo for cyber888.vip crypto sportsbook. Minimal geometric mark combining stylized "C8" or infinity-888 in metallic gold (#d4af37) on deep purple (#3f1c66). Clean vector, flat, no photorealism, no bet365 copy, square, crisp edges, dark background, professional gambling brand, high contrast for small size.`;
 
   fs.mkdirSync(platformPublic, { recursive: true });
   fs.writeFileSync(

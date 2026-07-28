@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { CATEGORY_WIDE } from "@/lib/categories";
 
 type EventRow = {
   id: string;
@@ -26,28 +28,29 @@ type SlipItem = {
 };
 
 const SPORTS = [
-  { id: "football", label: "足球" },
-  { id: "basketball", label: "籃球", disabled: true },
-  { id: "tennis", label: "網球", disabled: true },
+  { id: "football", labelKey: "sports.football" },
+  { id: "basketball", labelKey: "sports.basketball", disabled: true },
+  { id: "tennis", labelKey: "sports.tennis", disabled: true },
 ] as const;
 
-function selectionLabel(ev: EventRow, sel: Selection) {
+function selectionLabel(ev: EventRow, sel: Selection, drawLabel: string) {
   if (sel === "home") return ev.homeTeam;
   if (sel === "away") return ev.awayTeam;
-  return "和局";
+  return drawLabel;
 }
 
-function formatKickoff(iso: string) {
-  const t = new Date(iso).getTime();
-  const diff = t - Date.now();
+function formatKickoff(iso: string, t: (k: string, v?: Record<string, string | number>) => string) {
+  const ts = new Date(iso).getTime();
+  const diff = ts - Date.now();
   const abs = Math.abs(diff);
   const mins = Math.round(abs / 60000);
-  if (diff > 0 && mins < 60) return `${mins} 分鐘後`;
-  if (diff > 0 && mins < 48 * 60) return `${Math.round(mins / 60)} 小時後`;
+  if (diff > 0 && mins < 60) return t("sports.minsLater", { n: mins });
+  if (diff > 0 && mins < 48 * 60) return t("sports.hoursLater", { n: Math.round(mins / 60) });
   return new Date(iso).toLocaleString();
 }
 
 export default function SportsPage() {
+  const { t } = useI18n();
   const [events, setEvents] = useState<EventRow[]>([]);
   const [sport, setSport] = useState("football");
   const [leagueFilter, setLeagueFilter] = useState<string>("all");
@@ -105,7 +108,7 @@ export default function SportsPage() {
           homeTeam: ev.homeTeam,
           awayTeam: ev.awayTeam,
           selection,
-          selectionLabel: selectionLabel(ev, selection),
+          selectionLabel: selectionLabel(ev, selection, t("sports.draw")),
           odds: ev.odds[selection],
           stake: 10,
         },
@@ -172,7 +175,11 @@ export default function SportsPage() {
   return (
     <div className="sb-layout">
       <aside className="sb-left">
-        <div className="panel-head">球種</div>
+        <div className="sports-cat-banner">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={CATEGORY_WIDE.football} alt="" />
+        </div>
+        <div className="panel-head">{t("nav.sports")}</div>
         <ul className="sb-nav-list">
           {SPORTS.map((s) => (
             <li key={s.id}>
@@ -182,8 +189,8 @@ export default function SportsPage() {
                 disabled={"disabled" in s && s.disabled}
                 onClick={() => setSport(s.id)}
               >
-                {s.label}
-                {"disabled" in s && s.disabled ? "（即將）" : ""}
+                {t(s.labelKey)}
+                {"disabled" in s && s.disabled ? `（${t("sports.soon")}）` : ""}
               </button>
             </li>
           ))}
@@ -266,7 +273,7 @@ export default function SportsPage() {
                     <div className="teams">
                       {ev.homeTeam} vs {ev.awayTeam}
                     </div>
-                    <div className="meta">{formatKickoff(ev.startsAt)}</div>
+                    <div className="meta">{formatKickoff(ev.startsAt, t)}</div>
                   </div>
                   {(["home", "draw", "away"] as const).map((sel) => {
                     const key = `${ev.id}:${sel}`;

@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -19,7 +19,7 @@ for (const line of fs.readFileSync(rootEnv, "utf8").split(/\r?\n/)) {
 }
 
 const context = `
-Product: cyber888.win — purple/gold crypto sportsbook + casino lobby.
+Product: cyber888.vip — purple/gold crypto sportsbook + casino lobby.
 Done: Next.js MVP, member/wallet ledger, NOWPayments USDT-TRC20 deposits (credit actual paid), withdraw risk auto ≤1000, admin panels, sports 1X2 stub, game lobby stubs, brand logo SVG.
 Not done: production deploy + IPN HTTPS, real game aggregator API, real sports API, NOWPayments payouts, OTP.
 User wants: game tiles with Gemini-generated cover images (click to enter).
@@ -65,7 +65,7 @@ async function gemini(ds) {
             {
               parts: [
                 {
-                  text: `Review this DeepSeek advice for cyber888.win and improve/agree. Add anything missing about NOWPayments IPN deploy and game covers UX. DeepSeek JSON:\n${JSON.stringify(ds)}\n\nReply JSON only with same schema plus "geminiNotes": string[].`,
+                  text: `Review this DeepSeek advice for cyber888.vip and improve/agree. Add anything missing about NOWPayments IPN deploy and game covers UX. DeepSeek JSON:\n${JSON.stringify(ds)}\n\nReply JSON only with same schema plus "geminiNotes": string[].`,
                 },
               ],
             },

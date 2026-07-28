@@ -1,19 +1,29 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppHeader } from "@/components/AppHeader";
+import { AppChrome } from "@/components/AppChrome";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import { getRequestLocale } from "@/lib/i18n/server";
 
 export const metadata: Metadata = {
-  title: "cyber888.win",
-  description: "USDT-TRC20 casino & sports — cyber888.win",
+  title: "cyber888.vip",
+  description: "USDT-TRC20 casino & sports — cyber888.vip",
   icons: {
-    icon: "/brand/logo.svg",
+    icon: [
+      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/favicon-64.png", sizes: "64x64", type: "image/png" },
+    ],
     apple: "/brand/logo-mark.png",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getRequestLocale();
+  const htmlLang = locale === "en" ? "en" : locale;
+
   return (
-    <html lang="zh-Hant">
+    <html lang={htmlLang}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -23,10 +33,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <div className="app-shell">
-          <AppHeader />
-          {children}
-        </div>
+        <I18nProvider initialLocale={locale}>
+          <div className="app-shell">
+            <AppHeader />
+            <AppChrome>{children}</AppChrome>
+            <MobileBottomNav />
+          </div>
+        </I18nProvider>
       </body>
     </html>
   );

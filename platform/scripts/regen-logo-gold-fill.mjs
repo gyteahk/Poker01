@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -23,11 +23,11 @@ for (const line of fs.readFileSync(rootEnv, "utf8").split(/\r?\n/)) {
 const geminiKey = process.env.GEMINI_API_KEY;
 if (!geminiKey) throw new Error("no GEMINI_API_KEY");
 
-const prompt = `Create a horizontal website logo for cyber888.win as a PNG with TRUE TRANSPARENT BACKGROUND (alpha), no purple plate, no colored backdrop, no square canvas fill.
+const prompt = `Create a horizontal website logo for cyber888.vip as a PNG with TRUE TRANSPARENT BACKGROUND (alpha), no purple plate, no colored backdrop, no square canvas fill.
 
 LEFT: a shield shape FULLY FILLED with polished metallic gold (solid gold fill end-to-end, not hollow, not empty center). No numbers or text inside the shield.
 
-RIGHT: wordmark "cyber888.win" — "cyber" white, "888" metallic gold matching the shield, ".win" light lavender. Bold modern sans-serif, slight italic OK.
+RIGHT: wordmark "cyber888.vip" — "cyber" white, "888" metallic gold matching the shield, ".vip" light lavender. Bold modern sans-serif, slight italic OK.
 
 Isolated logo graphic only on transparent background. Crisp vector-like, high contrast, suitable for overlay on a purple website header. No drop shadow plate, no background color.`;
 

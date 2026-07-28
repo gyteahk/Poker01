@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -23,16 +23,16 @@ for (const line of fs.readFileSync(rootEnv, "utf8").split(/\r?\n/)) {
 const geminiKey = process.env.GEMINI_API_KEY;
 if (!geminiKey) throw new Error("no GEMINI_API_KEY");
 
-const prompt = `Create a clean horizontal website header logo for cyber888.win.
+const prompt = `Create a clean horizontal website header logo for cyber888.vip.
 
 Background: solid deep purple (#3F1C66).
 
 LEFT: a polished metallic GOLD shield emblem ONLY — empty inside (solid dark purple or empty fill). NO numbers, NO 8, NO 888, NO text inside the shield. Just a elegant gold shield outline/shape like a premium sportsbook badge.
 
-RIGHT of the shield (same as a top navigation brand): the wordmark "cyber888.win" in bold italic/modern sans-serif:
+RIGHT of the shield (same as a top navigation brand): the wordmark "cyber888.vip" in bold italic/modern sans-serif:
 - "cyber" in white
 - "888" in metallic gold matching the shield
-- ".win" in light lavender or white
+- ".vip" in light lavender or white
 
 Composition like a website topbar logo: shield + site name side by side, crisp vector style, high contrast, no clutter, no extra icons.`;
 

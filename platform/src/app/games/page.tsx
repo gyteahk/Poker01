@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { gameCategoryImage, CATEGORY_IMAGES } from "@/lib/categories";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type Game = {
   id: string;
@@ -11,29 +14,32 @@ type Game = {
   imageUrl?: string | null;
 };
 
-const CATEGORY_LABEL: Record<string, string> = {
-  slots: "老虎機",
-  live: "真人",
-  fishing: "打魚",
-  cards: "發牌",
-  poker: "撲克",
-  other: "其他",
-};
-
-function coverSrc(g: Game) {
-  if (g.imageUrl) return g.imageUrl;
-  if (g.externalId) return `/games/covers/${g.externalId}.png`;
-  return null;
-}
+const CAT_KEYS = ["slots", "fishing", "cards", "poker"] as const;
 
 export default function GamesPage() {
+  return (
+    <Suspense fallback={<div className="app-body muted">…</div>}>
+      <GamesPageInner />
+    </Suspense>
+  );
+}
+
+function GamesPageInner() {
+  const { t } = useI18n();
+  const search = useSearchParams();
+  const initialCat = search.get("cat") || "all";
   const [games, setGames] = useState<Game[]>([]);
-  const [cat, setCat] = useState("all");
+  const [cat, setCat] = useState(initialCat);
   const [q, setQ] = useState("");
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
   const [loadingId, setLoadingId] = useState<string | null>(null);
-  const [broken, setBroken] = useState<Record<string, boolean>>({});
+  const [booting, setBooting] = useState(true);
+
+  useEffect(() => {
+    const next = search.get("cat") || "all";
+    setCat(next);
+  }, [search]);
 
   useEffect(() => {
     void (async () => {
@@ -44,18 +50,29 @@ export default function GamesPage() {
       }
       const data = await res.json();
       setGames(data.games || []);
+      setBooting(false);
     })();
   }, []);
 
-  const categories = useMemo(() => [...new Set(games.map((g) => g.category))], [games]);
+  const catLabel = (c: string) => t(`games.cat.${c}` as "games.cat.slots") || c;
 
   const filtered = useMemo(() => {
     return games.filter((g) => {
-      if (cat !== "all" && g.category !== cat) return false;
+      if (cat === "poker") {
+        // 真人發牌歸入撲克，避免同「真人」分類重疊
+        if (g.category !== "poker" && g.category !== "live") return false;
+      } else if (cat !== "all" && g.category !== cat) {
+        return false;
+      }
       if (q && !g.name.toLowerCase().includes(q.toLowerCase())) return false;
       return true;
     });
   }, [games, cat, q]);
+
+  const listCategoryLabel = (c: string) => {
+    if (c === "live") return t("games.cat.poker");
+    return catLabel(c);
+  };
 
   async function launch(gameId: string) {
     setErr("");
@@ -72,7 +89,7 @@ export default function GamesPage() {
       setErr(data.error || "Launch failed");
       return;
     }
-    setMsg(`已啟動 ${data.game.name}`);
+    setMsg(t("games.launched", { name: data.game.name }));
     if (data.launchUrl) {
       window.location.href = data.launchUrl;
     }
@@ -82,34 +99,42 @@ export default function GamesPage() {
     <div className="app-body">
       <div className="stack" style={{ gap: "0.75rem" }}>
         <section className="page-title-bar">
-          <h1>遊戲大廳</h1>
-          <p className="muted">點封面圖進入遊戲</p>
+          <h1>{t("games.title")}</h1>
+          <p className="muted">{t("games.lead")}</p>
         </section>
 
-        <div className="row" style={{ justifyContent: "space-between" }}>
-          <div className="row" style={{ flexWrap: "wrap" }}>
+        <section>
+          <h2 className="cat-section-title">{t("games.categories")}</h2>
+          <div className="category-grid">
             <button
               type="button"
-              className={cat === "all" ? undefined : "secondary"}
+              className={`category-tile ${cat === "all" ? "active" : ""}`}
               onClick={() => setCat("all")}
             >
-              全部
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={CATEGORY_IMAGES.games} alt="" />
+              <span>{t("games.all")}</span>
             </button>
-            {categories.map((c) => (
+            {CAT_KEYS.map((c) => (
               <button
                 key={c}
                 type="button"
-                className={cat === c ? undefined : "secondary"}
+                className={`category-tile ${cat === c ? "active" : ""}`}
                 onClick={() => setCat(c)}
               >
-                {CATEGORY_LABEL[c] || c}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={gameCategoryImage(c)} alt="" />
+                <span>{catLabel(c)}</span>
               </button>
             ))}
           </div>
+        </section>
+
+        <div className="row" style={{ justifyContent: "flex-end" }}>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="搜尋遊戲"
+            placeholder={t("games.search")}
             style={{ minWidth: 160 }}
           />
         </div>
@@ -117,41 +142,39 @@ export default function GamesPage() {
         {err ? <div className="alert error">{err}</div> : null}
         {msg ? <div className="alert ok">{msg}</div> : null}
 
-        <div className="game-cover-grid">
-          {filtered.length ? (
-            filtered.map((g) => {
-              const src = coverSrc(g);
-              const showImg = Boolean(src) && !broken[g.id];
-              return (
-                <button
-                  key={g.id}
-                  type="button"
-                  className="game-cover"
-                  disabled={loadingId === g.id}
-                  onClick={() => launch(g.id)}
-                >
-                  <span className="game-cover-media">
-                    {showImg ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={src!}
-                        alt={g.name}
-                        onError={() => setBroken((b) => ({ ...b, [g.id]: true }))}
-                      />
-                    ) : (
-                      <span className="game-cover-fallback">{g.name}</span>
-                    )}
-                    {loadingId === g.id ? <span className="game-cover-loading">啟動中…</span> : null}
-                  </span>
-                  <span className="game-cover-meta">
-                    <strong>{g.name}</strong>
-                    <span className="muted">{CATEGORY_LABEL[g.category] || g.category}</span>
-                  </span>
-                </button>
-              );
-            })
+        <div className="game-list">
+          {booting ? (
+            Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="skeleton skeleton-row" />
+            ))
+          ) : filtered.length ? (
+            filtered.map((g) => (
+              <button
+                key={g.id}
+                type="button"
+                className="game-list-row"
+                disabled={loadingId === g.id}
+                onClick={() => launch(g.id)}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={g.category === "live" ? gameCategoryImage("poker") : gameCategoryImage(g.category)}
+                  alt=""
+                  className="game-list-thumb"
+                />
+                <span className="game-list-meta">
+                  <strong>{g.name}</strong>
+                    <span className="muted">
+                      {listCategoryLabel(g.category)} · {t("games.demo")}
+                    </span>
+                </span>
+                <span className="game-list-cta">
+                  {loadingId === g.id ? t("games.launching") : "→"}
+                </span>
+              </button>
+            ))
           ) : (
-            <div className="card muted">沒有符合的遊戲</div>
+            <div className="card muted">{t("games.empty")}</div>
           )}
         </div>
       </div>

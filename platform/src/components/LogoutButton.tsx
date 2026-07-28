@@ -1,6 +1,9 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n/I18nProvider";
+
 export function LogoutButton() {
+  const { t } = useI18n();
   return (
     <button
       type="button"
@@ -10,7 +13,7 @@ export function LogoutButton() {
         window.location.href = "/login";
       }}
     >
-      登出
+      {t("nav.logout")}
     </button>
   );
 }

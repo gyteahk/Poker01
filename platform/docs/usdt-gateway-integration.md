@@ -1,4 +1,4 @@
-# USDT Payment Gateway 接入設計（cyber888.win）
+﻿# USDT Payment Gateway 接入設計（cyber888.vip）
 
 > 範圍：接**第三方 payment gateway**（不自建掃鏈／熱錢包）。  
 > 對齊現有 stub：`src/lib/providers/usdt-gateway.ts`、`/api/deposit/*`、`/api/withdraw`、`/api/admin/withdrawals`、ledger idempotency。  
@@ -256,4 +256,4 @@ verifyWebhook(req: Request) → GatewayWebhookPayload  // 取代單純 header se
 
 ---
 
-*文件版本：2026-07-28 · 平台路徑 `platform/` · 品牌 cyber888.win*
+*文件版本：2026-07-28 · 平台路徑 `platform/` · 品牌 cyber888.vip*

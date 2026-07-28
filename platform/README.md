@@ -1,6 +1,6 @@
-# cyber888.win Platform MVP
+# cyber888.vip Platform MVP
 
-博彩平台最小可行產品（與宣傳站分離），品牌：**cyber888.win**。
+博彩平台最小可行產品（與宣傳站分離），品牌：**cyber888.vip**。
 
 ## 已定範圍
 
@@ -23,7 +23,7 @@ npm run dev
 
 ### 預設管理員
 
-- Email: `admin@cyber888.win`
+- Email: `admin@cyber888.vip`
 - Password: `admin123456`（見 `.env`）
 
 ## 建議試跑流程

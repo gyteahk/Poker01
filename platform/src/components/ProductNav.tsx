@@ -1,37 +1,54 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const PRODUCTS = [
-  { href: "/sports", label: "體育" },
-  { href: "/games", label: "遊戲" },
-  { href: "/wallet", label: "錢包" },
+  { href: "/sports", key: "nav.football", id: "football" },
+  { href: "/games?cat=poker", key: "nav.poker", id: "poker" },
+  { href: "/games", key: "nav.games", id: "games" },
+  { href: "/wallet", key: "nav.wallet", id: "wallet" },
 ] as const;
 
-function isActive(pathname: string, href: string) {
-  return pathname === href || pathname.startsWith(`${href}/`);
+function isProductActive(pathname: string, search: string, id: string) {
+  if (id === "football") return pathname === "/sports" || pathname.startsWith("/sports/");
+  if (id === "poker") return pathname.startsWith("/games") && search.includes("cat=poker");
+  if (id === "games") return pathname.startsWith("/games") && !search.includes("cat=poker");
+  if (id === "wallet") return pathname === "/wallet" || pathname.startsWith("/wallet/");
+  return false;
 }
 
-export function ProductNav({ showAdmin }: { showAdmin?: boolean }) {
+function ProductNavInner({ showAdmin }: { showAdmin?: boolean }) {
   const pathname = usePathname() || "";
+  const search = useSearchParams()?.toString() || "";
+  const { t } = useI18n();
 
   return (
-    <nav className="nav-products" aria-label="產品">
+    <nav className="nav-products" aria-label={t("nav.products")}>
       {PRODUCTS.map((p) => (
         <Link
-          key={p.href}
+          key={p.id}
           href={p.href}
-          className={isActive(pathname, p.href) ? "active" : undefined}
+          className={isProductActive(pathname, search, p.id) ? "active" : undefined}
         >
-          {p.label}
+          {t(p.key)}
         </Link>
       ))}
       {showAdmin ? (
-        <Link href="/admin" className={isActive(pathname, "/admin") ? "active" : undefined}>
-          後台
+        <Link href="/admin" className={pathname.startsWith("/admin") ? "active" : undefined}>
+          {t("nav.admin")}
         </Link>
       ) : null}
     </nav>
+  );
+}
+
+export function ProductNav({ showAdmin }: { showAdmin?: boolean }) {
+  return (
+    <Suspense fallback={<nav className="nav-products" />}>
+      <ProductNavInner showAdmin={showAdmin} />
+    </Suspense>
   );
 }
