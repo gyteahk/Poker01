@@ -17,7 +17,7 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 /** Allow DeepSeek + Gemini cover generation on cold start / refresh. */
-export const maxDuration = 60;
+export const maxDuration = 26;
 
 /**
  * GET /api/news
@@ -41,14 +41,14 @@ async function withUpdateLock<T>(fn: () => Promise<T>): Promise<T> {
   const started = Date.now();
   while (globalThis.__poker01NewsUpdateLock) {
     // Hard-killed Netlify invokes can leave a stale lock on a warm isolate.
-    if (Date.now() - started > 45_000) {
+    if (Date.now() - started > 8_000) {
       globalThis.__poker01NewsUpdateLock = undefined;
       break;
     }
     try {
       await Promise.race([
         globalThis.__poker01NewsUpdateLock,
-        new Promise((resolve) => setTimeout(resolve, 5_000)),
+        new Promise((resolve) => setTimeout(resolve, 2_000)),
       ]);
     } catch {
       // previous updater failed; proceed
