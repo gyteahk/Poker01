@@ -213,29 +213,68 @@ function parseRssItems(xml: string): { title: string; link: string }[] {
   return items;
 }
 
+/** Drop charity “poker run” / casino-night noise from broad Google queries. */
+function isRelevantPokerHeadline(title: string): boolean {
+  const t = title.toLowerCase();
+  if (
+    /\bpoker run\b/.test(t) ||
+    /\bcasino night\b/.test(t) ||
+    /\bcharity poker\b/.test(t) ||
+    /\bsuicide prevention poker\b/.test(t) ||
+    /\bbest online poker sites?\b/.test(t) ||
+    /\breal money \(20\d\d guide\)\b/.test(t)
+  ) {
+    return false;
+  }
+  return (
+    /\bpoker\b/.test(t) ||
+    /\bholdem\b/.test(t) ||
+    /\bhold'em\b/.test(t) ||
+    /\bwpt\b/.test(t) ||
+    /\bwsop\b/.test(t) ||
+    /\bmtt\b/.test(t)
+  );
+}
+
 export async function fetchPokerHeadlines(): Promise<
   { title: string; link: string }[]
 > {
+  // PokerNews /rss/news.xml now serves an HTML subscribe page — skip it.
   const feeds = [
-    "https://news.google.com/rss/search?q=poker+OR+%22texas+holdem%22&hl=en-US&gl=US&ceid=US:en",
-    "https://www.pokernews.com/rss/news.xml",
+    'https://news.google.com/rss/search?q=%22texas+holdem%22+OR+WSOP+OR+WPT+OR+%22poker+tournament%22+OR+%22online+poker%22+when:7d&hl=en-US&gl=US&ceid=US:en',
+    "https://news.google.com/rss/search?q=poker+(tournament+OR+WSOP+OR+WPT+OR+holdem)+-run+-charity&hl=en-US&gl=US&ceid=US:en",
   ];
+
+  const seen = new Set<string>();
+  const merged: { title: string; link: string }[] = [];
 
   for (const url of feeds) {
     try {
       const res = await fetch(url, {
-        headers: { "User-Agent": "PokerNewsBot/1.0" },
-        next: { revalidate: 1800 },
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (compatible; Poker01NewsBot/1.1; +https://poker01.club)",
+          Accept: "application/rss+xml, application/xml, text/xml, */*",
+        },
+        // Avoid stale CDN cache hiding fresh headlines for hours
+        cache: "no-store",
       });
       if (!res.ok) continue;
       const xml = await res.text();
-      const items = parseRssItems(xml);
-      if (items.length) return items.slice(0, 5);
+      if (!xml.includes("<item") && !xml.includes("<entry")) continue;
+      for (const item of parseRssItems(xml)) {
+        if (!isRelevantPokerHeadline(item.title)) continue;
+        const key = normalizeHeadlineText(item.title);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        merged.push(item);
+        if (merged.length >= 8) return merged;
+      }
     } catch {
       // try next feed
     }
   }
-  return [];
+  return merged;
 }
 
 async function callDeepSeek(prompt: string, apiKey: string): Promise<string> {
@@ -537,16 +576,23 @@ export type WriteNewsResult = {
   errors: string[];
 };
 
+/** Keep batches small so Netlify functions finish before ~40–60s gateway timeout. */
+const INCREMENTAL_BATCH = 2;
+
 export async function writeNewsWithAI(
   headlines: { title: string; link: string; key?: string }[],
+  options?: { withImages?: boolean; limit?: number },
 ): Promise<WriteNewsResult | null> {
   const deepseekKey = process.env.DEEPSEEK_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY;
+  // Default off for incremental updates — Gemini multi-image often trips Netlify 502.
+  const withImages = options?.withImages ?? false;
+  const limit = options?.limit ?? INCREMENTAL_BATCH;
 
   if (!deepseekKey) return null;
   if (!headlines.length) return null;
 
-  const capped = headlines.slice(0, 5);
+  const capped = headlines.slice(0, Math.max(1, Math.min(5, limit)));
   const errors: string[] = [];
   let articles: NewsArticle[] | null = null;
 
@@ -560,7 +606,6 @@ export async function writeNewsWithAI(
 
   if (!articles?.length) return null;
 
-  // Prefer stable ids tied to source keys so re-runs don't collide in image names
   articles = articles.map((a, i) => ({
     ...a,
     id: `n-${capped[i]?.key || a.sourceKey || a.id}`.replace(
@@ -569,7 +614,11 @@ export async function writeNewsWithAI(
     ),
   }));
 
-  const imaged = await attachCoverImages(articles, geminiKey, errors);
+  const imaged = await attachCoverImages(
+    articles,
+    withImages ? geminiKey : undefined,
+    errors,
+  );
 
   return {
     articles: imaged.articles,

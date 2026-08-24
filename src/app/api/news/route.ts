@@ -118,8 +118,8 @@ async function runIncrementalUpdate(options: {
 
   const keyed = (
     force
-      ? headlines.slice(0, 5).map((h) => ({ ...h, key: headlineKey(h) }))
-      : filterNewHeadlines(headlines, archive).slice(0, 5)
+      ? headlines.slice(0, 2).map((h) => ({ ...h, key: headlineKey(h) }))
+      : filterNewHeadlines(headlines, archive).slice(0, 2)
   );
 
   if (!keyed.length) {
@@ -155,7 +155,11 @@ async function runIncrementalUpdate(options: {
     });
   }
 
-  const written = await writeNewsWithAI(keyed);
+  // Incremental: text + stock covers (fast). Force: still skip Gemini to avoid 502.
+  const written = await writeNewsWithAI(keyed, {
+    limit: 2,
+    withImages: false,
+  });
 
   if (written?.articles?.length) {
     const incoming = withFallbackCovers(written.articles);
