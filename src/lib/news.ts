@@ -255,8 +255,8 @@ export async function fetchPokerHeadlines(): Promise<
             "Mozilla/5.0 (compatible; Poker01NewsBot/1.1; +https://poker01.club)",
           Accept: "application/rss+xml, application/xml, text/xml, */*",
         },
-        // Avoid stale CDN cache hiding fresh headlines for hours
         cache: "no-store",
+        signal: AbortSignal.timeout(8_000),
       });
       if (!res.ok) continue;
       const xml = await res.text();

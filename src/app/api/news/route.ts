@@ -91,6 +91,7 @@ function jsonPayload(args: {
     updatedAt: args.updatedAt,
     lastCheckAt: args.lastCheckAt,
     checkIntervalMs: args.checkIntervalMs ?? NEWS_CHECK_INTERVAL_MS,
+    pipeline: "v2-fast",
   });
 }
 
