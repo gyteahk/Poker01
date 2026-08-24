@@ -408,11 +408,8 @@ async function callGeminiImage(
   prompt: string,
   apiKey: string,
 ): Promise<GeminiImageResult> {
-  const models = [
-    "gemini-3.1-flash-image",
-    "gemini-2.5-flash-image",
-    "gemini-3.1-flash-lite-image",
-  ];
+  // Nano Banana 2 Lite only — cheapest Gemini image model; no expensive fallbacks.
+  const models = ["gemini-3.1-flash-lite-image"];
   let lastError = "Gemini image unavailable";
 
   for (const model of models) {
@@ -435,6 +432,7 @@ async function callGeminiImage(
               responseModalities: ["TEXT", "IMAGE"],
             },
           }),
+          signal: AbortSignal.timeout(20_000),
         });
 
         if (!res.ok) {
@@ -458,44 +456,6 @@ async function callGeminiImage(
         lastError = e instanceof Error ? e.message : "Gemini image failed";
       }
     }
-  }
-
-  // Legacy Imagen predict (may still work before Aug 2026 shutdown)
-  try {
-    const imagenModels = [
-      "imagen-4.0-fast-generate-001",
-      "imagen-4.0-generate-001",
-    ];
-    for (const model of imagenModels) {
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:predict`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": apiKey,
-          },
-          body: JSON.stringify({
-            instances: [{ prompt }],
-            parameters: { sampleCount: 1 },
-          }),
-        },
-      );
-      if (!res.ok) {
-        lastError = `Imagen error ${res.status} (${model})`;
-        continue;
-      }
-      const data = await res.json();
-      const b64 =
-        data?.predictions?.[0]?.bytesBase64Encoded ??
-        data?.predictions?.[0]?.image?.bytesBase64Encoded;
-      if (b64) {
-        return { base64: b64, mimeType: "image/png" };
-      }
-      lastError = `Imagen empty (${model})`;
-    }
-  } catch (e) {
-    lastError = e instanceof Error ? e.message : "Imagen failed";
   }
 
   throw new Error(lastError);
@@ -586,8 +546,8 @@ export async function writeNewsWithAI(
 ): Promise<WriteNewsResult | null> {
   const deepseekKey = process.env.DEEPSEEK_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY;
-  // Default off for incremental updates — Gemini multi-image often trips Netlify 502.
-  const withImages = options?.withImages ?? false;
+  // Default on: Nano Banana 2 Lite only (see callGeminiImage).
+  const withImages = options?.withImages ?? true;
   const limit = options?.limit ?? INCREMENTAL_BATCH;
 
   if (!deepseekKey) return null;

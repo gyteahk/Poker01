@@ -14,3 +14,6 @@ public/workbox-*.js
 public/workbox-*.js.map
 public/swe-worker-*.js
 public/swe-worker-*.js.map
+platform/
+_platform_archived_after_move/
+platform-deploy.tgz

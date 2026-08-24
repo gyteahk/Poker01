@@ -142,10 +142,10 @@ async function runIncrementalUpdate(options: {
     });
   }
 
-  // Incremental: text + stock covers (fast). Force: still skip Gemini to avoid 502.
+  // 1 article + Nano Banana 2 Lite cover only (cheapest image path).
   const written = await writeNewsWithAI(keyed, {
     limit: 1,
-    withImages: false,
+    withImages: true,
   });
 
   if (written?.articles?.length) {
