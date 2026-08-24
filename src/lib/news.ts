@@ -241,8 +241,7 @@ export async function fetchPokerHeadlines(): Promise<
 > {
   // PokerNews /rss/news.xml now serves an HTML subscribe page — skip it.
   const feeds = [
-    'https://news.google.com/rss/search?q=%22texas+holdem%22+OR+WSOP+OR+WPT+OR+%22poker+tournament%22+OR+%22online+poker%22+when:7d&hl=en-US&gl=US&ceid=US:en',
-    "https://news.google.com/rss/search?q=poker+(tournament+OR+WSOP+OR+WPT+OR+holdem)+-run+-charity&hl=en-US&gl=US&ceid=US:en",
+    'https://news.google.com/rss/search?q=WSOP+OR+WPT+OR+%22poker+tournament%22+OR+%22texas+holdem%22+when:3d&hl=en-US&gl=US&ceid=US:en',
   ];
 
   const seen = new Set<string>();
