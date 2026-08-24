@@ -38,32 +38,9 @@ declare global {
 }
 
 async function withUpdateLock<T>(fn: () => Promise<T>): Promise<T> {
-  const started = Date.now();
-  while (globalThis.__poker01NewsUpdateLock) {
-    // Hard-killed Netlify invokes can leave a stale lock on a warm isolate.
-    if (Date.now() - started > 8_000) {
-      globalThis.__poker01NewsUpdateLock = undefined;
-      break;
-    }
-    try {
-      await Promise.race([
-        globalThis.__poker01NewsUpdateLock,
-        new Promise((resolve) => setTimeout(resolve, 2_000)),
-      ]);
-    } catch {
-      // previous updater failed; proceed
-    }
-  }
-  let release!: () => void;
-  globalThis.__poker01NewsUpdateLock = new Promise<void>((resolve) => {
-    release = resolve;
-  });
-  try {
-    return await fn();
-  } finally {
-    release();
-    globalThis.__poker01NewsUpdateLock = undefined;
-  }
+  // Avoid cross-request locks on Netlify: hard-killed invokes leave stale
+  // promises that block later traffic until the 40s gateway 502s.
+  return fn();
 }
 
 function withFallbackCovers(articles: NewsArticle[]): NewsArticle[] {
