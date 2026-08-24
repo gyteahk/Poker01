@@ -287,6 +287,7 @@ async function callDeepSeek(prompt: string, apiKey: string): Promise<string> {
     body: JSON.stringify({
       model: "deepseek-chat",
       temperature: 0.6,
+      max_tokens: 1200,
       messages: [
         {
           role: "system",
@@ -296,6 +297,7 @@ async function callDeepSeek(prompt: string, apiKey: string): Promise<string> {
         { role: "user", content: prompt },
       ],
     }),
+    signal: AbortSignal.timeout(25_000),
   });
   if (!res.ok) throw new Error(`DeepSeek error ${res.status}`);
   const data = await res.json();
@@ -576,8 +578,8 @@ export type WriteNewsResult = {
   errors: string[];
 };
 
-/** Keep batches small so Netlify functions finish before ~40–60s gateway timeout. */
-const INCREMENTAL_BATCH = 2;
+/** Keep batches tiny so Netlify edge/gateway (~26–40s) does not 502. */
+const INCREMENTAL_BATCH = 1;
 
 export async function writeNewsWithAI(
   headlines: { title: string; link: string; key?: string }[],

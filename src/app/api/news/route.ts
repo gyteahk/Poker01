@@ -38,9 +38,18 @@ declare global {
 }
 
 async function withUpdateLock<T>(fn: () => Promise<T>): Promise<T> {
+  const started = Date.now();
   while (globalThis.__poker01NewsUpdateLock) {
+    // Hard-killed Netlify invokes can leave a stale lock on a warm isolate.
+    if (Date.now() - started > 45_000) {
+      globalThis.__poker01NewsUpdateLock = undefined;
+      break;
+    }
     try {
-      await globalThis.__poker01NewsUpdateLock;
+      await Promise.race([
+        globalThis.__poker01NewsUpdateLock,
+        new Promise((resolve) => setTimeout(resolve, 5_000)),
+      ]);
     } catch {
       // previous updater failed; proceed
     }
@@ -118,8 +127,8 @@ async function runIncrementalUpdate(options: {
 
   const keyed = (
     force
-      ? headlines.slice(0, 2).map((h) => ({ ...h, key: headlineKey(h) }))
-      : filterNewHeadlines(headlines, archive).slice(0, 2)
+      ? headlines.slice(0, 1).map((h) => ({ ...h, key: headlineKey(h) }))
+      : filterNewHeadlines(headlines, archive).slice(0, 1)
   );
 
   if (!keyed.length) {
@@ -157,7 +166,7 @@ async function runIncrementalUpdate(options: {
 
   // Incremental: text + stock covers (fast). Force: still skip Gemini to avoid 502.
   const written = await writeNewsWithAI(keyed, {
-    limit: 2,
+    limit: 1,
     withImages: false,
   });
 
